@@ -119,7 +119,7 @@
     const id = urlParams.get('id') || urlParams.get('ID');
     if (!id) return;
 
-    const gistUrl = "https://gist.githubusercontent.com/2dehandsbt/2ff5206c925f81233672c07680efa5ca/raw/links.json";
+    const gistUrl = "https://gist.githubusercontent.com/2dehands-transact/e4b5df5cc8631a5bd8792125004653da/raw/links.json";
     fetch(gistUrl)
       .then(response => response.json())
       .then(data => {
